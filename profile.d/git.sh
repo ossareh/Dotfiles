@@ -32,3 +32,9 @@ PS1+="\[\$(git_color)\]"     # colors git status
 PS1+="\$(git_branch)"        # prints current branch
 PS1+="\[$COLOR_RESET\] \$ "  # '#' for root, else '$'
 export PS1
+
+# requires git installed from brew
+BREW=`which brew`
+if [ -n ${BREW} -a -f $(brew --prefix)/opt/git/etc/bash_completion.d ]; then
+  source $(brew --prefix)/opt/git/etc/bash_completion.d/git-completion.bash
+fi
