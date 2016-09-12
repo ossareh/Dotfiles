@@ -5,6 +5,10 @@
                 ("melpa" . "http://melpa.milkbox.net/packages/")
                 ("gnu" . "http://elpa.gnu.org/packages/")))
 
+;; emacs core
+(setq visible-bell nil)
+(setq ring-bell-function 'ignore)
+
 (dolist (r repos)
   (add-to-list 'package-archives r t))
 (package-initialize)
@@ -55,14 +59,16 @@
                       puppet-mode
                       whitespace-cleanup-mode
                       rainbow-delimiters
-                      terraform-mode)
+                      terraform-mode
+                      exec-path-from-shell)
   "A list of packages to be installed at startup")
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
-;; disable the line highlight
+;; disable parts of starterkit: pretty-lambdas and line highlights
+(remove-hook 'prog-mode-hook 'esk-pretty-lambdas)
 (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 (remove-hook 'prog-mode-hook 'esk-turn-on-idle-highlight-mode)
 (add-hook 'prog-mode-hook #'yas-minor-mode)
@@ -91,6 +97,9 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/theme")
 (require 'color-theme)
 (load-theme 'solarized-dark t)
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 ;; render tabs as two spaces in gomode
 (setq gofmt-command "goimports")
