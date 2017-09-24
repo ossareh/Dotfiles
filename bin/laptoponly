@@ -1,4 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-
-setxkbmap -option ctrl:nocaps
