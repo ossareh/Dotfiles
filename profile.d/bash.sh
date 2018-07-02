@@ -13,14 +13,16 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
+# enable programmable completion features
+BASH_COMPLETION=$(brew --prefix)/share/bash-completion
+COMPLETIONS=${BASH_COMPLETION}/completions
+if [ -f ${BASH_COMPLETION}/bash_completion ]; then
+    source  ${BASH_COMPLETION}/bash_completion
 
+    # enable bash completions for commands
+    if [ -d ${COMPLETIONS} ]; then
+	for f in ${COMPLETIONS}/*; do
+	    test -r "${f}" && source "${f}"
+	done
+    fi
+fi
